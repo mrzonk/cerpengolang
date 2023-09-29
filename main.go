@@ -1,25 +1,25 @@
 package main
 
 import (
-	config "cerpengolang/config"
+	"cerpengolang/config"
 	"cerpengolang/routes"
 
-	"github.com/joho/godotenv"
-	"github.com/labstack/echo/v4"
+	"net/http"
+
+	log "github.com/sirupsen/logrus"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
-	// loadEnv()
-	config.InitDatabase()
-	e := echo.New()
-	routes.InitRoutes(e)
-	//e.Start(":" + os.Getenv("PORT"))
-	e.Start(":2222")
-}
+	config.LoadEnv()
+	config.LoadConfig()
+	config.ConnectDB()
 
-func loadEnv() {
-	err := godotenv.Load()
-	if err != nil {
-		panic("Error loading .env file")
-	}
+	r := mux.NewRouter()
+	routes.RouteIndex(r)
+
+	log.Println("Server running")
+	//http.ListenAndServe(fmt.Sprintf(":%v", os.Getenv("PORT")), r)
+	http.ListenAndServe(":3434", r)
 }

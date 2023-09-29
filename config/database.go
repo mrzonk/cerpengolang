@@ -1,32 +1,40 @@
-package configs
+package config
 
 import (
+	//"fmt"
+	"cerpengolang/models"
+	//"os"
+
+	log "github.com/sirupsen/logrus"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
 
-func InitDatabase() {
-	/*
-		dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local",
-			os.Getenv("DB_USER"),
-			os.Getenv("DB_PASSWORD"),
-			os.Getenv("DB_HOST"),
-			os.Getenv("DB_PORT"),
-			os.Getenv("DB_NAME"))
+func ConnectDB() {
+	/*connection := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?parseTime=true&loc=Asia%vJakarta",
+	os.Getenv("DB_USER"),
+	os.Getenv("DB_PASSWORD"),
+	os.Getenv("DB_HOST"),
+	os.Getenv("DB_PORT"),
+	os.Getenv("DB_DATABASE"), "%2F")
 	*/
 	username := "root"
 	password := ""
 	host := "localhost"
 	port := "3306"
 	database := "golang"
-	dsn := username + ":" + password + "@tcp(" + host + ":" + port + ")/" + database + "?charset=utf8mb4&parseTime=True&loc=Local"
+	connection := username + ":" + password + "@tcp(" + host + ":" + port + ")/" + database + "?charset=utf8mb4&parseTime=True&loc=Local"
 
-	var err error
-	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(connection), &gorm.Config{})
 	if err != nil {
-		panic("Error init database")
+		panic("Failed to connect database")
 	}
-	initMigrate()
+
+	db.AutoMigrate(&models.Cerpen{}, &models.Comment{})
+
+	DB = db
+	log.Println("Database connected")
 }
