@@ -3,9 +3,9 @@ package main
 import (
 	"cerpengolang/config"
 	"cerpengolang/routes"
-
+"fmt"
 	"net/http"
-
+"os"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/gorilla/mux"
@@ -20,6 +20,6 @@ func main() {
 	routes.RouteIndex(r)
 
 	log.Println("Server running")
-	//http.ListenAndServe(fmt.Sprintf(":%v", os.Getenv("PORT")), r)
-	http.ListenAndServe(":3434", r)
+	http.ListenAndServe(fmt.Sprintf(":%v", os.Getenv("PORT")), r)
+	//http.ListenAndServe(":3434", r)
 }
