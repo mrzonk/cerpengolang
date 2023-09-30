@@ -6,7 +6,10 @@ It is a just simple tutorial or example for making simple RESTful API with Go us
 ## Installation & Run
 ```bash
 # Download this project
-go get https://github.com/mrzonk/cerpengolang.git
+git clone https://github.com/mrzonk/cerpengolang.git
+cd cerpengolang
+go mod tidy
+go run main.go
 ```
 
 Before running API server, you should set the database config with yours or set the your database config with my values on [config.go](https://github.com/mrzonk/cerpengolang/blob/master/config/database.go)
@@ -50,13 +53,13 @@ go build
 * `GET` : Get all Comment
 * `POST` : Create a new Comment
 
-#### /cerpens/:id/details
+#### /comment/:id/details
 * `GET` : Get a detail Comment
 
-#### /cerpens/:id/update
+#### /comment/:id/update
 * `PUT` : Update a Comment
 
-#### /cerpens/:id/delete
+#### /comment/:id/delete
 * `Delete` : Delete One Comment
 
 ## Todo
